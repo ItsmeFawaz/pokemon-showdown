@@ -8,7 +8,7 @@ export const Scripts: ModdedBattleScriptsData = {
 	side: {
 		choose(input: string) {
 			// Check if this is a boss side making multiple moves
-			const isBoss = this.sideConditions && this.sideConditions['raidboss'];
+			const isBoss = this.sideConditions?.['raidboss'];
 			
 			if (isBoss && input.startsWith('move ')) {
 				// Check for boss move count pattern: "move <count>"
@@ -244,7 +244,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			
 			// NOW add boss multiple moves
 			if (action.choice === 'move' && action.pokemon && !midTurn) {
-				const isBoss = action.pokemon.side.sideConditions && action.pokemon.side.sideConditions['raidboss'];
+				const isBoss = action.pokemon.side.sideConditions?.['raidboss'];
 				
 				if (isBoss && this.battle.formatData.raidData) {
 					const bossMoveCount = this.battle.formatData.raidData.bossMoveCount || 1;
@@ -260,7 +260,7 @@ export const Scripts: ModdedBattleScriptsData = {
 						
 						// Get random target from participants
 						const participantPokemon = this.battle.getAllActive().filter((p: Pokemon) => {
-							return !p.side.sideConditions || !p.side.sideConditions['raidboss'];
+							return !p.side.sideConditions?.['raidboss'];
 						});
 						if (participantPokemon.length === 0) continue;
 						

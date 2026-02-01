@@ -3,25 +3,29 @@
  * Implements special rules for raid den battles where multiple participants fight a powerful boss
  */
 
-export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
+export const Rulesets: import('../../../sim/dex-formats').FormatDataTable = {
 	raiddens: {
 		effectType: 'ValidatorRule',
 		name: 'Raid Dens',
 		desc: 'Raid Den battle rules: Boss with boosted HP, turn limit, special healing and reset mechanics',
 		
 		onBattleStart() {
-			// Initialize raid data
-			this.raidData = {
+			// Initialize raid data using formatData for type safety
+			this.formatData.raidData = {
 				maxTurns: 10,
 				bossMoveCount: 1,
 				participantCount: 4,
 				startTurn: this.turn,
+				healingDone: false, // Track if healing already done this turn
 			};
 
 			// Mark which side is the boss (p2)
 			for (const side of this.sides) {
 				if (side.id === 'p2') {
-					side.isRaidBoss = true;
+					// Use side-specific storage instead of modifying Side type
+					if (!side.sideConditions) side.sideConditions = {};
+					side.sideConditions['raidboss'] = true;
+					
 					const bossPokemon = side.pokemon[0];
 					if (bossPokemon) {
 						// 5x HP multiplier for boss
@@ -30,20 +34,27 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 						bossPokemon.maxhp = bossPokemon.baseMaxhp;
 						bossPokemon.hp = bossPokemon.maxhp;
 					}
-				} else {
-					side.isRaidBoss = false;
 				}
 			}
 		},
 
 		onResidualOrder: 100,
 		onResidual(pokemon) {
-			// End of turn effects
+			// Only run once per turn using a flag
 			const battle = pokemon.battle;
+			if (battle.formatData.raidData && battle.formatData.raidData.healingDone) {
+				return; // Already processed this turn
+			}
+			
+			// Mark as done for this turn
+			if (battle.formatData.raidData) {
+				battle.formatData.raidData.healingDone = true;
+			}
 			
 			// Heal fainted participants
 			for (const side of battle.sides) {
-				if (!side.isRaidBoss) {
+				const isBoss = side.sideConditions && side.sideConditions['raidboss'];
+				if (!isBoss) {
 					for (const p of side.pokemon) {
 						if (p.fainted) {
 							p.hp = p.maxhp;
@@ -57,7 +68,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			}
 
 			// Reset boss status and negative boosts
-			if (pokemon.side.isRaidBoss) {
+			const isBoss = pokemon.side.sideConditions && pokemon.side.sideConditions['raidboss'];
+			if (isBoss) {
 				if (pokemon.status) {
 					pokemon.setStatus('');
 				}
@@ -71,7 +83,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			}
 
 			// Reset participant positive boosts
-			if (!pokemon.side.isRaidBoss) {
+			if (!isBoss) {
 				const stats: BoostID[] = ['atk', 'def', 'spa', 'spd', 'spe', 'accuracy', 'evasion'];
 				for (const stat of stats) {
 					if (pokemon.boosts[stat] > 0) {
@@ -82,17 +94,27 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		},
 
 		onBeforeTurn(pokemon) {
-			// Check turn limit
+			// Only check turn limit once per turn
 			const battle = pokemon.battle;
-			if (battle.raidData) {
-				const turnsElapsed = battle.turn - battle.raidData.startTurn;
-				if (turnsElapsed >= battle.raidData.maxTurns) {
-					// Participants lose on turn limit
-					for (const side of battle.sides) {
-						if (!side.isRaidBoss) {
-							battle.win(side.foe);
-							return;
-						}
+			if (!battle.formatData.raidData || battle.formatData.raidData.turnChecked) {
+				return;
+			}
+			
+			// Mark as checked for this turn
+			battle.formatData.raidData.turnChecked = true;
+			
+			// Reset healing flag for next turn
+			battle.formatData.raidData.healingDone = false;
+			
+			// Check turn limit
+			const turnsElapsed = battle.turn - battle.formatData.raidData.startTurn;
+			if (turnsElapsed >= battle.formatData.raidData.maxTurns) {
+				// Participants lose on turn limit
+				for (const side of battle.sides) {
+					const isBoss = side.sideConditions && side.sideConditions['raidboss'];
+					if (!isBoss) {
+						battle.win(side.foe);
+						return;
 					}
 				}
 			}

@@ -49,6 +49,8 @@ export const Rulesets: import('../../../sim/dex-formats').FormatDataTable = {
 			// Mark as done for this turn
 			if (battle.formatData.raidData) {
 				battle.formatData.raidData.healingDone = true;
+				// Reset boss move count for next turn (after moves have been executed)
+				battle.formatData.raidData.bossMoveCount = 1;
 			}
 			
 			// Heal fainted participants

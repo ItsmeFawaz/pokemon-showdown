@@ -94,6 +94,19 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		],
 	},
 	{
+		name: "[Gen 9] Raid Den Battle",
+		desc: `Raid Den format: Multiple participants (1 Pokemon each, no switching) vs a powerful Raid Boss. Boss makes multiple moves per turn.`,
+		mod: 'gen9raiddens',
+		gameType: 'multi',
+		searchShow: false,
+		tournamentShow: false,
+		rated: false,
+		ruleset: [
+			'Max Team Size = 1',
+			'HP Percentage Mod', 'Cancel Mod',
+		],
+	},
+	{
 		name: "[Gen 9] OU",
 		mod: 'gen9',
 		ruleset: ['Standard', 'Evasion Abilities Clause', 'Sleep Moves Clause', '!Sleep Clause Mod'],

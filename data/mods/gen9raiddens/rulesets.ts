@@ -19,9 +19,13 @@ export const Rulesets: import('../../../sim/dex-formats').FormatDataTable = {
 				healingDone: false, // Track if healing already done this turn
 			};
 
-			// Mark which side is the boss (p2)
+			// Mark which side is the boss (p2) and set up active arrays
 			for (const side of this.sides) {
 				if (side.id === 'p2') {
+					// Boss side - reduce to single active
+					side.active = [null!];
+					side.slotConditions = [{}];
+					
 					// Use side-specific storage instead of modifying Side type
 					if (!side.sideConditions) side.sideConditions = {};
 					side.sideConditions['raidboss'] = true;
@@ -34,8 +38,23 @@ export const Rulesets: import('../../../sim/dex-formats').FormatDataTable = {
 						bossPokemon.maxhp = bossPokemon.baseMaxhp;
 						bossPokemon.hp = bossPokemon.maxhp;
 					}
+				} else if (side.id === 'p1') {
+					// Participant side - expand to accommodate all Pokemon
+					const participantCount = Math.min(
+						this.formatData.raidData.participantCount,
+						side.pokemon.length
+					);
+					side.active = new Array(participantCount).fill(null);
+					side.slotConditions = [];
+					for (let i = 0; i < participantCount; i++) {
+						side.slotConditions[i] = {};
+					}
 				}
 			}
+			
+			// Update activePerHalf to support 4 active on participant side
+			// This is needed for target validation to work correctly
+			(this as any).activePerHalf = 4;
 		},
 
 		onResidualOrder: 100,

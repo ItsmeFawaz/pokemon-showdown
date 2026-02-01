@@ -5,6 +5,73 @@ export const Scripts: ModdedBattleScriptsData = {
 	inherit: 'gen9',
 	gen: 9,
 
+	validTargetLoc(targetLoc: number, source: Pokemon, targetType: string) {
+		// Special handling for raid dens
+		const isBoss = source.side.sideConditions?.['raidboss'];
+		const targetIsBoss = targetLoc > 0 && this.sides[1]?.sideConditions?.['raidboss'];
+		const sourceIsBoss = targetLoc < 0 && this.sides[0]?.sideConditions?.['raidboss'];
+		
+		if (isBoss || targetIsBoss || sourceIsBoss) {
+			// In raid dens, all participants can target the boss and vice versa
+			if (targetLoc === 0) return true;
+			const numSlots = this.activePerHalf;
+			if (Math.abs(targetLoc) > numSlots) return false;
+			
+			const isSelf = (source.getLocOf(source) === targetLoc);
+			const isFoe = (targetLoc > 0 && source.side.id === 'p1') || (targetLoc < 0 && source.side.id === 'p2');
+			
+			// For raid dens, allow targeting any foe
+			if (targetType === 'normal' || targetType === 'any' || targetType === 'randomNormal' || targetType === 'scripted') {
+				return isFoe || (targetType === 'any' && !isSelf);
+			}
+			
+			// For other target types, use adjacency (adjacent to boss = all participants)
+			if (targetType === 'adjacentFoe') {
+				return isFoe;
+			}
+			
+			if (targetType === 'adjacentAlly' || targetType === 'adjacentAllyOrSelf') {
+				return !isFoe && (targetType === 'adjacentAllyOrSelf' || !isSelf);
+			}
+			
+			// Default to false for unhandled target types
+			return false;
+		}
+		
+		// For non-raid battles, use standard validation logic
+		// This is duplicated from battle.ts since we can't easily call parent
+		if (targetLoc === 0) return true;
+		const numSlots = this.activePerHalf;
+		const sourceLoc = source.getLocOf(source);
+		if (Math.abs(targetLoc) > numSlots) return false;
+		const isSelf = (sourceLoc === targetLoc);
+		const isFoe = (this.gameType === 'freeforall' ? !isSelf : targetLoc > 0);
+		const acrossFromTargetLoc = -(numSlots + 1 - targetLoc);
+		const isAdjacent = (targetLoc > 0 ?
+			Math.abs(acrossFromTargetLoc - sourceLoc) <= 1 :
+			Math.abs(targetLoc - sourceLoc) === 1);
+
+		if (this.gameType === 'freeforall' && targetType === 'adjacentAlly') {
+			return isAdjacent;
+		}
+
+		switch (targetType) {
+		case 'randomNormal':
+		case 'scripted':
+		case 'normal':
+			return isAdjacent;
+		case 'adjacentAlly':
+			return isAdjacent && !isFoe;
+		case 'adjacentAllyOrSelf':
+			return isAdjacent && !isFoe || isSelf;
+		case 'adjacentFoe':
+			return isAdjacent && isFoe;
+		case 'any':
+			return !isSelf;
+		}
+		return false;
+	},
+
 	side: {
 		choose(input: string) {
 			// Check if this is a boss side making multiple moves

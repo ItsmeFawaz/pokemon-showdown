@@ -95,13 +95,14 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 	},
 	{
 		name: "[Gen 9] Raid Den Battle",
-		desc: `Raid Den format: Participants (multiple Pokemon on one side) vs a powerful Raid Boss. Boss makes multiple moves per turn.`,
+		desc: `Raid Den format: Participants vs a powerful Raid Boss. Boss makes multiple moves per turn.`,
 		mod: 'gen9raiddens',
 		gameType: 'singles',
 		searchShow: false,
 		tournamentShow: false,
 		rated: false,
 		ruleset: [
+			'Raid Dens',
 			'HP Percentage Mod', 'Cancel Mod',
 		],
 	},

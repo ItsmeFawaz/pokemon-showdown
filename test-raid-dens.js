@@ -42,9 +42,7 @@ console.log('P1 team:', battle.p1.pokemon.map(p => p.name));
 console.log('P2 team:', battle.p2.pokemon.map(p => p.name));
 console.log('');
 
-// Start the battle
-battle.start();
-
+// Battle already started by setPlayer
 console.log('Battle started!');
 console.log('Turn:', battle.turn);
 console.log('P1 active:', battle.p1.active.map(p => p?.name));
@@ -61,7 +59,7 @@ console.log('');
 // Make some moves
 console.log('--- Turn 1 ---');
 // P1 makes a move
-battle.makeChoices('move thunderbolt', 'move 2'); // Boss makes 2 moves
+battle.makeChoices('move thunderbolt', 'move 1'); // Boss makes 1 move (normal for now)
 console.log('After Turn 1:');
 console.log('P1 Pokemon HP:', battle.p1.pokemon[0].hp, '/', battle.p1.pokemon[0].maxhp);
 console.log('P2 Pokemon HP:', battle.p2.pokemon[0].hp, '/', battle.p2.pokemon[0].maxhp);
@@ -70,7 +68,7 @@ console.log('');
 // Check if battle is still going
 if (!battle.ended) {
 	console.log('--- Turn 2 ---');
-	battle.makeChoices('move quickattack', 'move 3'); // Boss makes 3 moves
+	battle.makeChoices('move quickattack', 'move 1');
 	console.log('After Turn 2:');
 	console.log('P1 Pokemon HP:', battle.p1.pokemon[0].hp, '/', battle.p1.pokemon[0].maxhp);
 	console.log('P2 Pokemon HP:', battle.p2.pokemon[0].hp, '/', battle.p2.pokemon[0].maxhp);

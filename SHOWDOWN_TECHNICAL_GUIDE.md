@@ -329,11 +329,11 @@ stream.on('data', (output) => {
 ### Step 3: Start Battle
 
 ```javascript
-// Format: >start {"formatid":"gen9raidenbattle"}
-stream.write('>start {"formatid":"gen9raidenbattle"}');
+// Format: >start {"formatid":"gen9raiddenbattle"}
+stream.write('>start {"formatid":"gen9raiddenbattle"}');
 ```
 
-**Format ID**: `"gen9raidenbattle"` (lowercase, no spaces)
+**Format ID**: `"gen9raiddenbattle"` (lowercase, no spaces)
 
 ### Step 4: Set Player Info
 
@@ -538,7 +538,7 @@ stream.on('data', (output) => {
 });
 
 // Start battle
-stream.write('>start {"formatid":"gen9raidenbattle"}');
+stream.write('>start {"formatid":"gen9raiddenbattle"}');
 
 // Set players
 stream.write('>player p1 {"name":"Participants"}');
@@ -639,7 +639,7 @@ stream.on('data', (output) => {
 
 **Start Battle**:
 ```javascript
-stream.write('>start {"formatid":"gen9raidenbattle"}');
+stream.write('>start {"formatid":"gen9raiddenbattle"}');
 stream.write('>player p1 {"name":"Participants"}');
 stream.write('>player p2 {"name":"Boss"}');
 stream.write(`>player p1 {"team":"<packed-team>"}`);
@@ -681,7 +681,7 @@ stream.write('>p2 move 3');
 
 ### Protocol
 - **BattleStream API**: Used for all communication
-- **Format ID**: `"gen9raidenbattle"`
+- **Format ID**: `"gen9raiddenbattle"`
 - **Participant Input**: Comma-separated moves
 - **Boss Input**: Move count
 - **Events**: Pipe-delimited messages

@@ -37,7 +37,7 @@ async function runRaidBattle() {
 
 	// Participant team - 4 Pokemon
 	const p1team = Sim.Teams.pack([
-		{species: 'Pikachu', ability: 'Static', item: 'Light Ball', moves: ['thunderbolt', 'quickattack', 'irontail', 'thunderwave'], evs: {hp: 252, atk: 252, def: 4}, nature: 'Adamant', level: 50},
+		{species: 'Pikachu', ability: 'Static', item: 'Light Ball', moves: ['thunderbolt', 'quickattack', 'irontail', 'thunderwave'], evs: {hp: 252, atk: 252, def: 4}, nature: 'Jolly', level: 50},
 		{species: 'Charizard', ability: 'Blaze', item: 'Charcoal', moves: ['flamethrower', 'airslash', 'dragonpulse', 'roost'], evs: {hp: 252, spa: 252, def: 4}, nature: 'Modest', level: 50},
 		{species: 'Blastoise', ability: 'Torrent', item: 'Mystic Water', moves: ['hydropump', 'icebeam', 'earthquake', 'rapidspin'], evs: {hp: 252, spa: 252, def: 4}, nature: 'Modest', level: 50},
 		{species: 'Venusaur', ability: 'Overgrow', item: 'Miracle Seed', moves: ['gigadrain', 'sludgebomb', 'earthquake', 'synthesis'], evs: {hp: 252, spa: 252, def: 4}, nature: 'Modest', level: 50},

@@ -325,7 +325,7 @@ To integrate with Cobblemon, you should:
 Example parsing code structure:
    
    function parseBattleOutput(chunk) {
-     const lines = chunk.split('\\n');
+     const lines = chunk.split('\\n'); // Note: In actual code, use '\n' (single backslash)
      for (const line of lines) {
        const parts = line.split('|');
        const messageType = parts[1]; // First part after |

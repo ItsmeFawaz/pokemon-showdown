@@ -93,39 +93,39 @@ Each turn, send move choices for all participants:
 
 | Event | Format | Description |
 |-------|--------|-------------|
-| `player` | `\|player\|p1\|Name\|\|` | Player information |
-| `gametype` | `\|gametype\|triples` | Game type (triples for raid dens) |
-| `teamsize` | `\|teamsize\|p1\|4` | Number of Pokemon per side |
-| `gen` | `\|gen\|9` | Generation number |
-| `tier` | `\|tier\|[Gen 9] Raid Den Battle` | Format name |
+| `player` | `|player|p1|Name||` | Player information |
+| `gametype` | `|gametype|triples` | Game type (triples for raid dens) |
+| `teamsize` | `|teamsize|p1|4` | Number of Pokemon per side |
+| `gen` | `|gen|9` | Generation number |
+| `tier` | `|tier|[Gen 9] Raid Den Battle` | Format name |
 
 ### Pokemon Events
 
 | Event | Format | Description |
 |-------|--------|-------------|
-| `switch` | `\|switch\|p1a: Pikachu\|Pikachu, L50\|142/142` | Pokemon enters battle |
-| `faint` | `\|faint\|p1a: Pikachu` | Pokemon faints |
+| `switch` | `|switch|p1a: Pikachu|Pikachu, L50|142/142` | Pokemon enters battle |
+| `faint` | `|faint|p1a: Pikachu` | Pokemon faints |
 
 ### Turn Events
 
 | Event | Format | Description |
 |-------|--------|-------------|
-| `turn` | `\|turn\|1` | New turn begins |
-| `move` | `\|move\|p1a: Pikachu\|Thunderbolt\|p2a: Mewtwo` | Pokemon uses move |
-| `-damage` | `\|-damage\|p2a: Mewtwo\|1200/1470` | Pokemon takes damage |
-| `-heal` | `\|-heal\|p1a: Pikachu\|100/142` | Pokemon heals |
-| `-status` | `\|-status\|p2a: Mewtwo\|brn` | Status condition applied |
-| `-curestatus` | `\|-curestatus\|p2a: Mewtwo\|brn` | Status cured |
-| `-boost` | `\|-boost\|p1a: Pikachu\|atk\|1` | Stat increased |
-| `-unboost` | `\|-unboost\|p2a: Mewtwo\|def\|1` | Stat decreased |
-| `-clearboost` | `\|-clearboost\|p1a: Pikachu` | All stat changes cleared |
+| `turn` | `|turn|1` | New turn begins |
+| `move` | `|move|p1a: Pikachu|Thunderbolt|p2a: Mewtwo` | Pokemon uses move |
+| `-damage` | `|-damage|p2a: Mewtwo|1200/1470` | Pokemon takes damage |
+| `-heal` | `|-heal|p1a: Pikachu|100/142` | Pokemon heals |
+| `-status` | `|-status|p2a: Mewtwo|brn` | Status condition applied |
+| `-curestatus` | `|-curestatus|p2a: Mewtwo|brn` | Status cured |
+| `-boost` | `|-boost|p1a: Pikachu|atk|1` | Stat increased |
+| `-unboost` | `|-unboost|p2a: Mewtwo|def|1` | Stat decreased |
+| `-clearboost` | `|-clearboost|p1a: Pikachu` | All stat changes cleared |
 
 ### Battle End Events
 
 | Event | Format | Description |
 |-------|--------|-------------|
-| `win` | `\|win\|Raid Participants` | Battle won |
-| `tie` | `\|tie` | Battle tied |
+| `win` | `|win|Raid Participants` | Battle won |
+| `tie` | `|tie` | Battle tied |
 
 ### Request Events
 

@@ -94,6 +94,19 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		],
 	},
 	{
+		name: "[Gen 9] Raid Den Battle",
+		desc: `Raid Den format: Participants vs a powerful Raid Boss. Boss makes multiple moves per turn.`,
+		mod: 'gen9raiddens',
+		gameType: 'triples', // Use triples to allow multiple active (supports up to 4 with custom activePerHalf)
+		searchShow: false,
+		tournamentShow: false,
+		rated: false,
+		ruleset: [
+			'Raid Dens',
+			'HP Percentage Mod', 'Cancel Mod',
+		],
+	},
+	{
 		name: "[Gen 9] OU",
 		mod: 'gen9',
 		ruleset: ['Standard', 'Evasion Abilities Clause', 'Sleep Moves Clause', '!Sleep Clause Mod'],

@@ -52,9 +52,9 @@ export const Rulesets: import('../../../sim/dex-formats').FormatDataTable = {
 				}
 			}
 			
-			// Update activePerHalf to support 4 active on participant side
-			// This is needed for target validation to work correctly
-			(this as any).activePerHalf = 4;
+			// Update activePerHalf to match participant count for proper target validation
+			// This ensures targeting logic works correctly with the configured number of participants
+			(this as any).activePerHalf = this.formatData.raidData.participantCount;
 		},
 
 		onResidualOrder: 100,
